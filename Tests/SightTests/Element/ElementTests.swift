@@ -14,7 +14,7 @@ final class ElementTests: XCTestCase {
     let positions: [SIMD2<Float>] = [
       .zero,
       .init(x: 0, y: 1),
-      .init(x: 1, y: 1),
+      .one,
       .init(x: 1, y: 0),
       .init(x: 1, y: -1),
       .init(x: 0, y: -1),
