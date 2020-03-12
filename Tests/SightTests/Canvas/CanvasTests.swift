@@ -58,4 +58,17 @@ final class CanvasTests: XCTestCase {
       XCTAssertEqual(canvas.closestValue(to: position), oneValue)
     }
   }
+
+  func testOutOfBounds() {
+    let canvas = Canvas<Void>(minBounds: .zero, maxBounds: .one, minimumCellSize: 0.2)
+    canvas.add((), at: .zero)
+
+    for i in 1...10 {
+      let position = SIMD2<Float>(x: -0.1 * Float(i), y: 0)
+      XCTAssertNil(canvas.closestValue(to: position), "fail for \(i)")
+    }
+
+    let position = SIMD2<Float>(x: -0.09, y: 0)
+    XCTAssertNotNil(canvas.closestValue(to: position))
+  }
 }
