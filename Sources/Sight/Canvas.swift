@@ -63,8 +63,8 @@ public struct Canvas<T> {
   ///
   /// - Parameter location: The center of the region we're interest in.
   func elements(at location: SIMD2<Float>) -> [Element<T>] {
-    let quadMin = SIMD2<Float>(x: location.x - minCellSize / 2, y: location.y - minCellSize / 2)
-    let quadMax = SIMD2<Float>(x: location.x + minCellSize / 2, y: location.y + minCellSize / 2)
+    let quadMin = location - minCellSize / 2
+    let quadMax = location + minCellSize / 2
     let quad = GKQuad(quadMin: quadMin, quadMax: quadMax)
     return elements(in: quad)
   }
