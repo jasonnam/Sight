@@ -85,6 +85,7 @@ public struct Canvas<T> {
   /// dimension.
   public func closestValue(to point: SIMD2<Float>) -> T? {
     elements(at: point)
+      .filter { $0.distance(from: point) <= minCellSize / 2 }
       .sorted { $0.distance(from: point) < $1.distance(from: point) }
       .first?
       .value
