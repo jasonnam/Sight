@@ -4,7 +4,12 @@ import GameplayKit
 struct Canvas<T> {
   private let tree: GKQuadtree<Element<T>>
   private let minCellSize: Float
-  
+
+  public init(bounds: float2x2, minimumCellSize: Float) {
+    let quad = GKQuad(quadMin: bounds[0], quadMax: bounds[1])
+    self.init(boundingQuad: quad, minimumCellSize: minimumCellSize)
+  }
+
   init(boundingQuad quad: GKQuad, minimumCellSize minCellSize: Float) {
     self.minCellSize = minCellSize
     tree = GKQuadtree<Element>(boundingQuad: quad, minimumCellSize: minCellSize)
