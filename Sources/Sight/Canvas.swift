@@ -19,13 +19,20 @@ public struct Canvas<T> {
   /// Initializes a new `Canvas` instance.
   ///
   /// - Parameters:
-  ///   - bounds: The canvas bounds.
+  ///   - minBounds: The minimun location bound.
+  ///     Used (internally) to structure and organize the values. The more
+  ///     accurate this value is, the better.
+  ///   - maxBounds: The maximum location bound.
   ///     Used (internally) to structure and organize the values. The more
   ///     accurate this value is, the better.
   ///   - minimumCellSize: The minimum dimension (width and height) of an
   ///     area of interest.
-  public init(bounds: float2x2, minimumCellSize: Float) {
-    let quad = GKQuad(quadMin: bounds[0], quadMax: bounds[1])
+  public init(
+    minBounds: SIMD2<Float>,
+    maxBounds: SIMD2<Float>,
+    minimumCellSize: Float
+  ) {
+    let quad = GKQuad(quadMin: minBounds, quadMax: maxBounds)
     self.init(boundingQuad: quad, minimumCellSize: minimumCellSize)
   }
 
