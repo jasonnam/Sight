@@ -26,8 +26,8 @@ final class Element<T>: NSObject {
   /// - Parameter position: Coordinate of the point we would like to compute the
   ///    distance of.
   func distance(from position: SIMD2<Float>) -> Float {
-    let xDelta: Float = self.position.x - position.x
-    let yDelta: Float = self.position.y - position.y
-    return sqrt(pow(xDelta, 2) + pow(yDelta, 2))
+    let Δx: Float = self.position.x - position.x
+    let Δy: Float = self.position.y - position.y
+    return sqrt(pow(Δx, 2) + pow(Δy, 2))
   }
 }
