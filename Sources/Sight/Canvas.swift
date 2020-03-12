@@ -31,7 +31,7 @@ struct Canvas<T> {
     tree.elements(in: quad)
   }
   
-  func clostesElement(to point: SIMD2<Float>) -> T? {
+  public func closestValue(to point: SIMD2<Float>) -> T? {
     elements(at: point)
       .sorted { $0.distance(from: point) < $1.distance(from: point) }
       .first?
