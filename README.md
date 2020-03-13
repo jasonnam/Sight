@@ -1,3 +1,82 @@
-# Sight
+<p align="center">
+    <img src=".logo/logo.png" width="400" max-width="90%" alt="Sight" />
+</p>
 
-A description of this package.
+<p align="center">
+    <img src="https://img.shields.io/badge/swift-5.1-orange.svg" />
+    <a href="https://github.com/zntfdr/Sight/actions?query=workflow%3A%22Build+and+Test%22">
+        <img src="https://img.shields.io/github/workflow/status/zntfdr/Sight/Build And Test?label=CI&logo=GitHub" alt="Build status" />
+    </a>
+    <a href="https://swift.org/package-manager">
+        <img src="https://img.shields.io/badge/swiftpm-compatible-brightgreen.svg?style=flat" alt="Swift Package Manager" />
+    </a>
+     <img src="https://img.shields.io/badge/platforms-macOS+iOS+iPadOS+tvOS-brightgreen.svg?style=flat" alt="MacOS + iOS + iPadOS + tvOS" />
+    <a href="https://twitter.com/zntfdr">
+        <img src="https://img.shields.io/badge/twitter-@zntfdr-blue.svg?style=flat" alt="Twitter: @zntfdr" />
+    </a>
+</p>
+
+Welcome to **Sight**, a Swift 2D spatial search μlibrary. Its primary goal is to extend Apple's [`GameplayKit`](https://developer.apple.com/documentation/gameplaykit) framework.
+
+## Features
+
+- [x] Pure Swift API.
+- [x] Associated values.
+
+## Usage
+
+Sight helps you quickly determine which object is closest to a given position.
+
+This is done via a `Canvas` instance, which represents the region where all the objects are positioned in.
+
+```swift
+import Sight
+
+// Create the canvas with the region bounds and the search radius.
+let canvas = Canvas<String>(
+  minBounds: SIMD2(x: 0, y: 0), 
+  maxBounds: SIMD2(x: 1, y: 1), 
+  searchRadius: 0.3
+)
+
+// Add objects to the canvas.
+canvas.add("A", at: SIMD2(x: 0, y: 0.1))
+canvas.add("B", at: SIMD2(x: 0.5, y: 0))
+canvas.add("C", at: SIMD2(x: 0, y: 0.8))
+
+// Find the closest object to any point.
+canvas.closestValue(to: SIMD2(x: 0.5, y: 0.2)) // "C" 
+canvas.closestValue(to: SIMD2(x: 1, y: 0)) // nil 
+```
+
+`Canvas` is optimized for spatial searches, this is why during its initialization both search radius and region bounds are required.
+
+You can find many more examples in the [`Tests`](https://github.com/zntfdr/Sight/tree/master/Tests) folder.
+
+### Tips
+
+- Performance:
+	- Keep the radius as big as possible.
+	- Keep the region bounds as little as possible.
+
+  Both values contribute on the library memory usage and performance.
+
+- It's ok to query and add objects out of the defined region (but please try not to!).
+  
+## Installation
+
+Sight is distributed using the [Swift Package Manager](https://swift.org/package-manager). To install it into a project, follow [this tutorial](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) and use this repository URL: `https://github.com/zntfdr/Sight.git`.
+
+## Credits
+
+Sight was built by [Federico Zanetello](https://twitter.com/zntfdr) as a component of [Bangkok Metro](http://yourmetro.app).
+
+If you'd like to know more on how this library works, please refer to `GameplayKit`'s [`GKQuadtree` overview](https://developer.apple.com/documentation/gameplaykit/gkquadtree).
+
+## Contributions and Support
+
+All users are welcome and encouraged to become active participants in the project continued development — by fixing any bug that they encounter, or by improving the documentation wherever it’s found to be lacking.
+
+If you'd like to make a change, please [open a Pull Request](https://github.com/zntfdr/Sight/pull/new), even if it just contains a draft of the changes you’re planning, or a test that reproduces an issue.
+
+Thank you and please enjoy using **Sight**!
