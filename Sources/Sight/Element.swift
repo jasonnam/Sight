@@ -1,20 +1,20 @@
 import Foundation
 
-/// A Canvas element.
+/// A `Region` element.
 ///
-/// Represents an element in the canvas.
+/// Represents an element in the region.
 final class Element<T>: NSObject {
   /// Value associated with the element.
   let value: T
 
-  /// Canvas coordinate of the element.
+  /// Element's `Region` coordinate.
   let position: SIMD2<Float>
 
   /// Initializes a new `Element` instances with the specified parameters.
   ///
   /// - Parameters:
   ///   - value: A value associated with this element.
-  ///   - position: The coordinate of this element in the canvas.
+  ///   - position: The coordinate of this element in the region.
   init(value: T, position: SIMD2<Float>) {
     self.value = value
     self.position = position

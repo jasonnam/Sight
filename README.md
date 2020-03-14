@@ -40,8 +40,8 @@ region.add("B", at: SIMD2(x: 0.5, y: 0))
 region.add("C", at: SIMD2(x: 0, y: 0.8))
 
 // Find the closest object to any point.
-canvas.closestValue(to: SIMD2(x: 0.5, y: 0.2)) // "B" 
-canvas.closestValue(to: SIMD2(x: 1, y: 0)) // nil 
+region.closestValue(to: SIMD2(x: 0.5, y: 0.2)) // "B" 
+region.closestValue(to: SIMD2(x: 1, y: 0)) // nil 
 ```
 
 `Region` is optimized for spatial searches, this is why during its initialization both search radius and its bounds are required.

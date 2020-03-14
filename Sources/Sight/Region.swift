@@ -1,8 +1,8 @@
 import Foundation
 import GameplayKit
 
-/// The canvas where we can place our values.
-public struct Canvas<T> {
+/// The region where we can place our values.
+public struct Region<T> {
   /// The GameplayKit data structure used to organize objects based on their
   /// locations in a two-dimensional space.
   ///
@@ -12,11 +12,11 @@ public struct Canvas<T> {
   /// The minimum dimension (width and height) of an area of interest.
   ///
   /// Given a position when searching for values, the result will return a value
-  /// only the (square) area in the canvas with this dimension has a value in
+  /// only the (square) area in the region with this dimension has a value in
   /// it.
   let minCellSize: Float
 
-  /// Initializes a new `Canvas` instance.
+  /// Initializes a new `Region` instance.
   ///
   /// - Parameters:
   ///   - minBounds: The minimun location bound.
@@ -36,7 +36,7 @@ public struct Canvas<T> {
     self.init(boundingQuad: quad, minimumCellSize: minimumCellSize)
   }
 
-  /// Initializes a new `Canvas` instance.
+  /// Initializes a new `Region` instance.
   ///
   /// - SeeAlso: `init(bounds: float2x2, minimumCellSize: Float)`.
   init(boundingQuad quad: GKQuad, minimumCellSize minCellSize: Float) {
@@ -50,8 +50,8 @@ public struct Canvas<T> {
   /// be returned during a query (which one is random).
   ///
   /// - Parameters:
-  ///   - value: The value to be added in the canvas.
-  ///   - position: The coordinate of the new value in the canvas.
+  ///   - value: The value to be added in the region.
+  ///   - position: The coordinate of the new value in the region.
   public func add(_ value: T, at position: SIMD2<Float>) {
     let element = Element(value: value, position: position)
     tree.add(element, at: element.position)
