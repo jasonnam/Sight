@@ -77,8 +77,7 @@ public struct Region<T> {
   public func closestValue(to point: SIMD2<Float>) -> T? {
     elements(at: point)
       .filter { $0.distance(from: point) <= searchRadius }
-      .sorted { $0.distance(from: point) < $1.distance(from: point) }
-      .first?
+      .min { $0.distance(from: point) < $1.distance(from: point) }?
       .value
   }
 }
