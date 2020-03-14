@@ -32,7 +32,7 @@ public struct Region<T> {
   /// - SeeAlso: `init(quadMin:maxBounds:searchRadius:)`.
   init(boundingQuad quad: GKQuad, searchRadius: Float) {
     self.searchRadius = searchRadius
-    tree = GKQuadtree(boundingQuad: quad, minimumCellSize: searchRadius * 2)
+    tree = GKQuadtree(boundingQuad: quad, minimumCellSize: searchRadius)
   }
 
   /// Adds the value at the specified position.
