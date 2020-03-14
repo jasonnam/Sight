@@ -47,14 +47,14 @@ final class RegionTests: XCTestCase {
     region.add(oneValue, at: oneValuePosition)
 
     // From zero to halfway we should get `zeroValue`.
-    for i in 0...5 {
-      let position = SIMD2<Float>(x: 0.1 * Float(i), y: 0)
+    for step in 0...5 {
+      let position = SIMD2<Float>(x: 0.1 * Float(step), y: 0)
       XCTAssertEqual(region.closestValue(to: position), zeroValue)
     }
 
     // From halfway till the end we should get `oneValue`.
-    for i in 6...10 {
-      let position = SIMD2<Float>(x: 0.1 * Float(i), y: 0)
+    for step in 6...10 {
+      let position = SIMD2<Float>(x: 0.1 * Float(step), y: 0)
       XCTAssertEqual(region.closestValue(to: position), oneValue)
     }
   }
@@ -63,9 +63,9 @@ final class RegionTests: XCTestCase {
     let region = Region<Void>(minBounds: .zero, maxBounds: .one, searchRadius: 0.1)
     region.add((), at: .zero)
 
-    for i in 1...10 {
-      let position = SIMD2<Float>(x: -0.1 * Float(i), y: 0)
-      XCTAssertNil(region.closestValue(to: position), "fail for \(i)")
+    for step in 1...10 {
+      let position = SIMD2<Float>(x: -0.1 * Float(step), y: 0)
+      XCTAssertNil(region.closestValue(to: position), "fail for \(step)")
     }
 
     let position = SIMD2<Float>(x: -0.09, y: 0)
