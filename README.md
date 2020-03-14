@@ -5,7 +5,7 @@
 <p align="center">
     <img src="https://img.shields.io/badge/swift-5.1-orange.svg" />
     <a href="https://github.com/zntfdr/Sight/actions?query=workflow%3A%22Build+and+Test%22">
-        <img src="https://img.shields.io/github/workflow/status/zntfdr/Sight/Build And Test?label=CI&logo=GitHub" alt="Build status" />
+        <img src="https://img.shields.io/github/workflow/status/zntfdr/Sight/Build and Test?label=CI&logo=GitHub" alt="Build status" />
     </a>
     <a href="https://swift.org/package-manager">
         <img src="https://img.shields.io/badge/swiftpm-compatible-brightgreen.svg?style=flat" alt="Swift Package Manager" />
@@ -16,47 +16,42 @@
     </a>
 </p>
 
-Welcome to **Sight**, a Swift 2D spatial search μlibrary. Its primary goal is to extend Apple's [`GameplayKit`](https://developer.apple.com/documentation/gameplaykit) framework.
-
-## Features
-
-- [x] Pure Swift API.
-- [x] Associated values.
+Welcome to **Sight**, a Swift spatial search μlibrary. Its primary goal is to extend Apple's [`GameplayKit`](https://developer.apple.com/documentation/gameplaykit) framework.
 
 ## Usage
 
 Sight helps you quickly determine which object is closest to a given position.
 
-This is done via a `Canvas` instance, which represents the region where all the objects are positioned in.
+This is done via a `Region` instance, which represents the space where all the objects are positioned in.
 
 ```swift
 import Sight
 
-// Create the canvas with the region bounds and the search radius.
-let canvas = Canvas<String>(
+// Define a region with bounds and search radius.
+let region = Region<String>(
   minBounds: SIMD2(x: 0, y: 0), 
   maxBounds: SIMD2(x: 1, y: 1), 
   searchRadius: 0.3
 )
 
-// Add objects to the canvas.
-canvas.add("A", at: SIMD2(x: 0, y: 0.1))
-canvas.add("B", at: SIMD2(x: 0.5, y: 0))
-canvas.add("C", at: SIMD2(x: 0, y: 0.8))
+// Place objects in the region.
+region.add("A", at: SIMD2(x: 0, y: 0.1))
+region.add("B", at: SIMD2(x: 0.5, y: 0))
+region.add("C", at: SIMD2(x: 0, y: 0.8))
 
 // Find the closest object to any point.
-canvas.closestValue(to: SIMD2(x: 0.5, y: 0.2)) // "C" 
+canvas.closestValue(to: SIMD2(x: 0.5, y: 0.2)) // "B" 
 canvas.closestValue(to: SIMD2(x: 1, y: 0)) // nil 
 ```
 
-`Canvas` is optimized for spatial searches, this is why during its initialization both search radius and region bounds are required.
+`Region` is optimized for spatial searches, this is why during its initialization both search radius and its bounds are required.
 
 You can find many more examples in the [`Tests`](https://github.com/zntfdr/Sight/tree/master/Tests) folder.
 
 ### Tips
 
 - Performance:
-	- Keep the radius as big as possible.
+	- Keep the search radius as big as possible.
 	- Keep the region bounds as little as possible.
 
   Both values contribute on the library memory usage and performance.
