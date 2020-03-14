@@ -1,9 +1,9 @@
 import Foundation
 import GameplayKit
 
-/// The region where we can place our values.
+/// Space where we values are placed.
 public struct Region<T> {
-  /// The GameplayKit data structure used to organize objects based on their
+  /// GameplayKit data structure used to organize objects based on their
   /// locations in a two-dimensional space.
   ///
   /// - SeeAlso: [Apple Documentation](https://developer.apple.com/documentation/gameplaykit/gkquadtree)
