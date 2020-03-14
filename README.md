@@ -47,16 +47,6 @@ region.closestValue(to: SIMD2(x: 1, y: 0)) // nil
 `Region` is optimized for spatial searches, this is why during its initialization both search radius and its bounds are required.
 
 You can find many more examples in the [`Tests`](https://github.com/zntfdr/Sight/tree/master/Tests) folder.
-
-### Tips
-
-- Performance:
-	- Keep the search radius as big as possible.
-	- Keep the region bounds as little as possible.
-
-  Both values contribute on the library memory usage and performance.
-
-- It's ok to query and add objects out of the defined region (but please try not to!).
   
 ## Installation
 
