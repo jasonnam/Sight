@@ -5,14 +5,14 @@ import XCTest
 
 final class RegionTests: XCTestCase {
   func testInstanceNoValue() {
-    let region = Region<Any>(minBounds: .zero, maxBounds: .one, minimumCellSize: 10)
+    let region = Region<Any>(minBounds: .zero, maxBounds: .one, searchRadius: 10)
     XCTAssertNil(region.closestValue(to: .zero))
     XCTAssertNil(region.closestValue(to: .one))
     XCTAssertNil(region.closestValue(to: .zero / 2))
   }
 
   func testOneValue() {
-    let region = Region<Int>(minBounds: .zero, maxBounds: .one, minimumCellSize: 10)
+    let region = Region<Int>(minBounds: .zero, maxBounds: .one, searchRadius: 10)
     let value = 1
     let valuePosition = SIMD2<Float>.one / 2
 
@@ -22,24 +22,24 @@ final class RegionTests: XCTestCase {
   }
 
   func testFindValueOnEdge() {
-    let minCellSize: Float = 1
-    let region = Region<Int>(minBounds: .zero, maxBounds: .one * 10, minimumCellSize: minCellSize)
+    let searchRadius: Float = 0.5
+    let region = Region<Int>(minBounds: .zero, maxBounds: .one * 10, searchRadius: searchRadius)
     let value = 1
     let valuePosition = SIMD2<Float>(x: 1, y: 0) * 10
 
     region.add(value, at: valuePosition)
 
     // Just out of area position.
-    let outOfAreaSearchPosition = valuePosition - SIMD2<Float>(x: 1, y: 0) * minCellSize / 2 - 0.00001
+    let outOfAreaSearchPosition = valuePosition - SIMD2<Float>(x: 1, y: 0) * searchRadius - 0.00001
     XCTAssertNil(region.closestValue(to: outOfAreaSearchPosition))
 
     // On the edge position.
-    let edgeSearchPosition = valuePosition - SIMD2<Float>(x: 1, y: 0) * minCellSize / 2
+    let edgeSearchPosition = valuePosition - SIMD2<Float>(x: 1, y: 0) * searchRadius
     XCTAssertNotNil(region.closestValue(to: edgeSearchPosition))
   }
 
   func testTwoValuesCompete() {
-    let region = Region<Int>(minBounds: .zero, maxBounds: .one, minimumCellSize: 1)
+    let region = Region<Int>(minBounds: .zero, maxBounds: .one, searchRadius: 1)
     let zeroValue = 0
     let oneValue = 1
     let oneValuePosition = SIMD2<Float>(x: 1, y: 0)
@@ -60,7 +60,7 @@ final class RegionTests: XCTestCase {
   }
 
   func testOutOfBounds() {
-    let region = Region<Void>(minBounds: .zero, maxBounds: .one, minimumCellSize: 0.2)
+    let region = Region<Void>(minBounds: .zero, maxBounds: .one, searchRadius: 0.1)
     region.add((), at: .zero)
 
     for i in 1...10 {

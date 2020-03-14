@@ -25,15 +25,15 @@ public struct Region<T> {
   ///   - maxBounds: The maximum location bound.
   ///     Used (internally) to structure and organize the values. The more
   ///     accurate this value is, the better.
-  ///   - minimumCellSize: The minimum dimension (width and height) of an
+  ///   - searchRadius: The minimum dimension (width and height) of an
   ///     area of interest.
   public init(
     minBounds: SIMD2<Float>,
     maxBounds: SIMD2<Float>,
-    minimumCellSize: Float
+    searchRadius: Float
   ) {
     let quad = GKQuad(quadMin: minBounds, quadMax: maxBounds)
-    self.init(boundingQuad: quad, minimumCellSize: minimumCellSize)
+    self.init(boundingQuad: quad, minimumCellSize: searchRadius * 2)
   }
 
   /// Initializes a new `Region` instance.
