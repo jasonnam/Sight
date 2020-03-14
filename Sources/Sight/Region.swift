@@ -75,9 +75,12 @@ public struct Region<T> {
   /// overlaps the square region centered in `point` and with `minCellSize`
   /// dimension.
   public func closestValue(to point: SIMD2<Float>) -> T? {
-    elements(at: point)
-      .filter { $0.distance(from: point) <= searchRadius }
-      .min { $0.distance(from: point) < $1.distance(from: point) }?
-      .value
+    if
+      let closestElement: Element = elements(at: point)
+        .min(by: { $0.distance(from: point) < $1.distance(from: point) }),
+      closestElement.distance(from: point) <= searchRadius {
+      return closestElement.value
+    }
+    return nil
   }
 }
