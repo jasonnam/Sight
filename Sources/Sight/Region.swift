@@ -9,39 +9,33 @@ public struct Region<T> {
   /// - SeeAlso: [Apple Documentation](https://developer.apple.com/documentation/gameplaykit/gkquadtree)
   let tree: GKQuadtree<Element<T>>
 
-  /// The minimum dimension (width and height) of an area of interest.
-  ///
-  /// Given a position when searching for values, the result will return a value
-  /// only the (square) area in the region with this dimension has a value in
-  /// it.
-  let minCellSize: Float
+  /// The spatial area radius of interest.
+  let searchRadius: Float
 
   /// Initializes a new `Region` instance.
   ///
   /// - Parameters:
   ///   - minBounds: The minimun location bound.
-  ///     Used (internally) to structure and organize the values. The more
-  ///     accurate this value is, the better.
   ///   - maxBounds: The maximum location bound.
-  ///     Used (internally) to structure and organize the values. The more
-  ///     accurate this value is, the better.
-  ///   - searchRadius: The minimum dimension (width and height) of an
-  ///     area of interest.
+  ///   - searchRadius: The search radius of the area of interest.
   public init(
     minBounds: SIMD2<Float>,
     maxBounds: SIMD2<Float>,
     searchRadius: Float
   ) {
     let quad = GKQuad(quadMin: minBounds, quadMax: maxBounds)
-    self.init(boundingQuad: quad, minimumCellSize: searchRadius * 2)
+    self.init(boundingQuad: quad, searchRadius: searchRadius)
   }
 
   /// Initializes a new `Region` instance.
   ///
-  /// - SeeAlso: `init(bounds: float2x2, minimumCellSize: Float)`.
-  init(boundingQuad quad: GKQuad, minimumCellSize minCellSize: Float) {
-    self.minCellSize = minCellSize
-    tree = GKQuadtree<Element>(boundingQuad: quad, minimumCellSize: minCellSize)
+  /// - SeeAlso: `init(quadMin:maxBounds:searchRadius:)`.
+  init(boundingQuad quad: GKQuad, searchRadius: Float) {
+    self.searchRadius = searchRadius
+    tree = GKQuadtree<Element>(
+      boundingQuad: quad,
+      minimumCellSize: searchRadius * 2
+    )
   }
 
   /// Adds the value at the specified position.
@@ -58,13 +52,13 @@ public struct Region<T> {
   }
 
   /// Returns all elements whose corresponding locations overlap the square
-  /// region with center on the specified `position`, and `minCellSize`
-  /// dimensions.
+  /// region with center on the specified `position`, and `searchRadius * 2`
+  /// edge length.
   ///
   /// - Parameter location: The center of the region we're interest in.
   func elements(at location: SIMD2<Float>) -> [Element<T>] {
-    let quadMin = location - minCellSize / 2
-    let quadMax = location + minCellSize / 2
+    let quadMin = location - searchRadius
+    let quadMax = location + searchRadius
     let quad = GKQuad(quadMin: quadMin, quadMax: quadMax)
     return elements(in: quad)
   }
@@ -85,7 +79,7 @@ public struct Region<T> {
   /// dimension.
   public func closestValue(to point: SIMD2<Float>) -> T? {
     elements(at: point)
-      .filter { $0.distance(from: point) <= minCellSize / 2 }
+      .filter { $0.distance(from: point) <= searchRadius }
       .sorted { $0.distance(from: point) < $1.distance(from: point) }
       .first?
       .value
