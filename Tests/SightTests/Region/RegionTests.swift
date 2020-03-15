@@ -63,12 +63,12 @@ final class RegionTests: XCTestCase {
     let region = Region<Void>(minBounds: .zero, maxBounds: .one, searchRadius: 0.1)
     region.add((), at: .zero)
 
-    for i in 1...10 {
+    for i in 2...10 {
       let position = SIMD2<Float>(x: -0.1 * Float(i), y: 0)
       XCTAssertNil(region.closestValue(to: position), "fail for \(i)")
     }
 
-    let position = SIMD2<Float>(x: -0.09, y: 0)
+    let position = SIMD2<Float>(x: -0.1, y: 0)
     XCTAssertNotNil(region.closestValue(to: position))
   }
 }
