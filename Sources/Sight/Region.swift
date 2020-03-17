@@ -18,21 +18,28 @@ public struct Region<T> {
   ///   - minBounds: The minimun location bound.
   ///   - maxBounds: The maximum location bound.
   ///   - searchRadius: The search radius of the area of interest.
+  ///   - minimumCellSize: The inner Quadtree minimumCellSize. This is your
+  ///     leverage on the library perfomance/memory-usage.
   public init(
     minBounds: SIMD2<Float>,
     maxBounds: SIMD2<Float>,
-    searchRadius: Float
+    searchRadius: Float,
+    minimumCellSize: Float = 1
   ) {
     let quad = GKQuad(quadMin: minBounds, quadMax: maxBounds)
-    self.init(boundingQuad: quad, searchRadius: searchRadius)
+    self.init(
+      boundingQuad: quad,
+      searchRadius: searchRadius,
+      minimumCellSize: minimumCellSize
+    )
   }
 
   /// Initializes a new `Region` instance.
   ///
   /// - SeeAlso: `init(quadMin:maxBounds:searchRadius:)`.
-  init(boundingQuad quad: GKQuad, searchRadius: Float) {
+  init(boundingQuad quad: GKQuad, searchRadius: Float, minimumCellSize: Float) {
     self.searchRadius = searchRadius
-    tree = GKQuadtree(boundingQuad: quad, minimumCellSize: 1)
+    tree = GKQuadtree(boundingQuad: quad, minimumCellSize: minimumCellSize)
   }
 
   /// Adds the value at the specified position.
