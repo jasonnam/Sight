@@ -34,7 +34,8 @@ final class ElementTests: XCTestCase {
 
     for distance in 0...10 {
       let element = Element(value: (), position: .zero)
-      let distanceFromElement = element.distance(from: position * Float(distance))
+      let position = position * Float(distance)
+      let distanceFromElement = element.distance(from: position)
       XCTAssertEqual(distanceFromElement, Float(distance))
     }
   }
