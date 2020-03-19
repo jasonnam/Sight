@@ -1,4 +1,4 @@
-import Foundation
+import Darwin
 
 extension SIMD2 where SIMD2.Scalar: FloatingPoint {
   /// Returns the vector length.

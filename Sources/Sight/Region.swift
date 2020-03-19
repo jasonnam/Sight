@@ -1,4 +1,3 @@
-import Foundation
 import GameplayKit
 
 /// Space where we values are placed.
