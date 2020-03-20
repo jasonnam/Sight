@@ -6,10 +6,13 @@ public struct Region<T> {
   /// locations in a two-dimensional space.
   ///
   /// - SeeAlso: [Apple Documentation](https://developer.apple.com/documentation/gameplaykit/gkquadtree)
-  let tree: GKQuadtree<Element<T>>
+  private let tree: GKQuadtree<Element<T>>
 
+  /// Current location bound for this region.
+  private var locationBound: GKQuad
+    
   /// The spatial area radius of interest.
-  let searchRadius: Float
+  private let searchRadius: Float
 
   /// Initializes a new `Region` instance.
   ///
@@ -38,6 +41,7 @@ public struct Region<T> {
   /// - SeeAlso: `init(quadMin:maxBounds:searchRadius:)`.
   init(boundingQuad quad: GKQuad, searchRadius: Float, minimumCellSize: Float) {
     self.searchRadius = searchRadius
+    self.locationBound = quad
     tree = GKQuadtree(boundingQuad: quad, minimumCellSize: minimumCellSize)
   }
 
@@ -53,13 +57,43 @@ public struct Region<T> {
     let element = Element(value: value, position: position)
     tree.add(element, at: element.position)
   }
-
+    
+  /// Adds the value at the specified position represent by item object.
+  ///
+  /// If multiple values are placed at the same position, only one of them will
+  /// be returned during a query (which one is random).
+  ///
+  /// - Parameters:
+  ///   - item: The single item represent a value and position.
+  public func add(_ item: Items<T>) {
+    let element = Element(value: item.value, position: item.position)
+    tree.add(element, at: element.position)
+  }
+    
+  /// Adds multiple value at the specified position of the item.
+  ///
+  /// If multiple values are placed at the same position, only one of them will
+  /// be returned during a query (which one is random).
+  ///
+  /// - Parameters:
+  ///   - items: Array of item that want to be added.
+  public func adds(_ items: [Items<T>]) {
+    for item in items {
+      add(item.value, at: item.position)
+    }
+  }
+    
+  /// Total items on the current region.
+  public func totalItems() -> Int {
+    return tree.elements(in: locationBound).count
+  }
+    
   /// Returns all elements whose corresponding locations overlap the square
   /// region with center on the specified `position`, and `searchRadius * 2`
   /// edge length.
   ///
   /// - Parameter location: The center of the region we're interest in.
-  func elements(at location: SIMD2<Float>) -> [Element<T>] {
+  private func elements(at location: SIMD2<Float>) -> [Element<T>] {
     let quadMin = location - searchRadius
     let quadMax = location + searchRadius
     let quad = GKQuad(quadMin: quadMin, quadMax: quadMax)
@@ -70,10 +104,10 @@ public struct Region<T> {
   /// region.
   ///
   /// - Parameter quad: The axis-aligned rectangle in 2D space to search.
-  func elements(in quad: GKQuad) -> [Element<T>] {
+  private func elements(in quad: GKQuad) -> [Element<T>] {
     tree.elements(in: quad)
   }
-
+    
   /// Returns the value whose location is closest to the specified point
   /// (if any).
   ///

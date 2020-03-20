@@ -20,6 +20,25 @@ final class RegionTests: XCTestCase {
 
     XCTAssertEqual(value, region.closestValue(to: valuePosition))
   }
+    
+  func testMultipleValue() {
+    let region = Region<String>(
+      minBounds: SIMD2(x: 0, y: 0),
+      maxBounds: SIMD2(x: 1, y: 1),
+      searchRadius: 0.3
+    )
+
+    var items: [Items<String>] = []
+    let itemA = Items(value: "A", position: SIMD2(x: 0, y: 0.1))
+    let itemB = Items(value: "B", position: SIMD2(x: 0.5, y: 0))
+    let itemC = Items(value: "C", position: SIMD2(x: 0, y: 0.8))
+    items.append(itemA)
+    items.append(itemB)
+    items.append(itemC)
+    region.adds(items)
+
+    XCTAssertEqual(region.totalItems(), items.count)
+  }
 
   func testFindValueOnEdge() {
     let searchRadius: Float = 0.5
