@@ -77,8 +77,8 @@ public struct Region<T> {
   /// Returns the value whose location is closest to the specified point
   /// (if any).
   ///
-  /// A value will be returned only if its region (specified with `minCellSize`)
-  /// overlaps the square region centered in `point` and with `minCellSize`
+  /// A value will be returned only if its region (specified with `minimumCellSize`)
+  /// overlaps the square region centered in `point` and with `minimumCellSize`
   /// dimension.
   public func closestValue(to point: SIMD2<Float>) -> T? {
     if
