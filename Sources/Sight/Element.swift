@@ -23,8 +23,8 @@ final class Element<T>: NSObject {
 
   /// Computes the distance between this instance and the specified coordinate.
   ///
-  /// - Parameter position: Coordinate of the point we would like to compute the
-  ///   distance of.
+  /// - Parameter position: Coordinate of the location we would like to compute
+  ///   the distance of.
   func distance(from position: SIMD2<Float>) -> Float {
     (self.position - position).length()
   }

@@ -14,8 +14,8 @@ public struct Region<T> {
   /// Initializes a new `Region` instance.
   ///
   /// - Parameters:
-  ///   - minBounds: The minimun location bound.
-  ///   - maxBounds: The maximum location bound.
+  ///   - minBounds: The minimun position bound.
+  ///   - maxBounds: The maximum position bound.
   ///   - searchRadius: The search radius of the area of interest.
   ///   - minimumCellSize: The inner Quadtree minimumCellSize. This is your
   ///     leverage on the library perfomance/memory-usage.
@@ -54,19 +54,19 @@ public struct Region<T> {
     tree.add(element, at: element.position)
   }
 
-  /// Returns all elements whose corresponding locations overlap the square
+  /// Returns all elements whose corresponding positions overlap the square
   /// region with center on the specified `position`, and `searchRadius * 2`
   /// edge length.
   ///
-  /// - Parameter location: The center of the region we're interest in.
-  func elements(at location: SIMD2<Float>) -> [Element<T>] {
-    let quadMin = location - searchRadius
-    let quadMax = location + searchRadius
+  /// - Parameter position: The center of the region we're interest in.
+  func elements(at position: SIMD2<Float>) -> [Element<T>] {
+    let quadMin = position - searchRadius
+    let quadMax = position + searchRadius
     let quad = GKQuad(quadMin: quadMin, quadMax: quadMax)
     return elements(in: quad)
   }
 
-  /// Returns all elements whose corresponding locations overlap the specified
+  /// Returns all elements whose corresponding positions overlap the specified
   /// region.
   ///
   /// - Parameter quad: The axis-aligned rectangle in 2D space to search.
@@ -74,17 +74,17 @@ public struct Region<T> {
     tree.elements(in: quad)
   }
 
-  /// Returns the value whose location is closest to the specified point
+  /// Returns the value whose position is closest to the specified position
   /// (if any).
   ///
   /// A value will be returned only if its region (specified with `minimumCellSize`)
-  /// overlaps the square region centered in `point` and with `minimumCellSize`
-  /// dimension.
-  public func closestValue(to point: SIMD2<Float>) -> T? {
+  /// overlaps the square region centered in `position` and with
+  /// `minimumCellSize` dimension.
+  public func closestValue(to position: SIMD2<Float>) -> T? {
     if
-      let closestElement: Element = elements(at: point)
-        .min(by: { $0.distance(from: point) < $1.distance(from: point) }),
-      closestElement.distance(from: point) <= searchRadius {
+      let closestElement: Element = elements(at: position)
+        .min(by: { $0.distance(from: position) < $1.distance(from: position) }),
+      closestElement.distance(from: position) <= searchRadius {
       return closestElement.value
     }
     return nil

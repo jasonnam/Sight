@@ -39,7 +39,7 @@ region.add("A", at: SIMD2(x: 0, y: 0.1))
 region.add("B", at: SIMD2(x: 0.5, y: 0))
 region.add("C", at: SIMD2(x: 0, y: 0.8))
 
-// Find the closest object to any point.
+// Find the closest object to any position.
 region.closestValue(to: SIMD2(x: 0.5, y: 0.2)) // "B" 
 region.closestValue(to: SIMD2(x: 1, y: 0)) // nil 
 ```
